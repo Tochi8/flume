@@ -1,25 +1,12 @@
-# Flume
+# Flume — Next.js scaffold
 
-WhatsApp-first lead pipeline for African SMEs.
-Official WhatsApp Cloud API only. Billing via [Bachs](https://docs.bachs.io).
+Real Next.js 16 (App Router) + TypeScript app from `flume-nextjs-app.zip`.
 
-Live build log lives in Notion (separate from the product spec).
+## Run it
 
-## Stack
-JavaScript · Next.js 15 App Router · React
-
-## Local
 ```bash
-cp .env.example .env.local
 npm install
 npm run dev
 ```
 
-## Bachs
-1. Sign up at https://app.bachs.io
-2. Developer → API keys → sandbox `sk_sandbox_...`
-3. Create two recurring products in NGN: Pro Monthly `15000.00`, Pro Yearly `150000.00`
-4. Paste product ids into env vars
-5. Webhook URL: `https://YOUR_DOMAIN/api/webhooks/bachs`
-
-Amounts are decimal strings. Never kobo.
+Open http://localhost:3000. Marketing site is `/`. App lives at `/overview`, `/inbox`, `/inbox/[id]`, `/qualification`, `/campaigns`, `/integrations`, `/billing`, `/settings`.
