@@ -26,8 +26,8 @@ export default function Desk() {
       </nav>
       <header className="desk-head">
         <div>
-          <p className="pill">{tenant.name} · {tenant.plan}</p>
-          <h1>Review queue</h1>
+          <p className="muted">{tenant.name} · {tenant.plan}</p>
+          <h1 style={{ fontSize: 32, letterSpacing: "-0.03em" }}>Review queue</h1>
         </div>
       </header>
       <section className="stats">
@@ -39,10 +39,10 @@ export default function Desk() {
       <section className="row">
         <div className="card">
           {leads.map((lead) => (
-            <button key={lead.id} className="lead" onClick={() => setActiveId(lead.id)} style={{ width: "100%", textAlign: "left", background: "transparent", borderLeft: 0, borderRight: 0, borderTop: 0 }}>
+            <button key={lead.id} className={lead.id === active?.id ? "lead active" : "lead"} onClick={() => setActiveId(lead.id)}>
               <div className="lead-top">
                 <strong>{lead.name}</strong>
-                <span className={`band ${lead.band}`}>{lead.band} {lead.score}</span>
+                <span className={`score ${lead.band}`}>{lead.band} {lead.score}</span>
               </div>
               <p className="muted">{lead.source} · {lead.phoneE164}</p>
             </button>
@@ -50,11 +50,11 @@ export default function Desk() {
         </div>
         {active && (
           <div className="card">
-            <p className="pill">{active.campaign}</p>
-            <h2>{active.name}</h2>
+            <p className="muted">{active.campaign}</p>
+            <h2 style={{ margin: "6px 0" }}>{active.name}</h2>
             <p className="muted">{active.phoneE164}</p>
             <p className="muted">Reasons: {active.reasons.join(", ")}</p>
-            <label className="muted" style={{ display: "grid", gap: 6, marginTop: 12 }}>
+            <label className="muted" style={{ display: "grid", gap: 6, marginTop: 14 }}>
               Outreach draft
               <textarea className="draft" defaultValue={active.draft} key={active.id} />
             </label>
@@ -64,7 +64,7 @@ export default function Desk() {
               <button className="btn" onClick={() => setStatus("won")}>Won</button>
               <button className="btn ghost" onClick={() => setStatus("junk")}>Junk</button>
             </div>
-            <p className="muted" style={{ marginTop: 12 }}>Send still needs a connected WhatsApp Cloud API number.</p>
+            <p className="muted" style={{ marginTop: 14 }}>Send still needs a connected WhatsApp Cloud API number.</p>
           </div>
         )}
       </section>
