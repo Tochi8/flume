@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
@@ -14,12 +15,14 @@ export function Logo({
 }) {
   return (
     <Link href={href} className={cn("flex items-center gap-2", className)}>
-      <span
-        className="inline-flex items-center justify-center rounded-md bg-green text-white font-display font-bold"
-        style={{ width: size, height: size, fontSize: size * 0.45 }}
-      >
-        F
-      </span>
+      <Image
+        src="/brand/flume-icon.png"
+        alt="Flume"
+        width={size}
+        height={size}
+        className="object-contain"
+        priority
+      />
       {withWordmark && (
         <span className="font-display font-bold text-ink" style={{ fontSize: size * 0.6 }}>
           Flume
