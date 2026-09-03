@@ -9,7 +9,7 @@ import {
   Home,
   Inbox,
   BarChart3,
-  MoreHorizontal,
+  CreditCard,
   type LucideIcon,
 } from "lucide-react";
 
@@ -22,7 +22,7 @@ export interface NavItem {
 export const sidebarNavItems: NavItem[] = [
   { label: "Overview", href: "/overview", icon: LayoutDashboard },
   { label: "Leads", href: "/inbox", icon: Users },
-  { label: "Conversations", href: "/inbox", icon: MessageSquare },
+  { label: "Conversations", href: "/inbox/lead_1", icon: MessageSquare },
   { label: "Qualification", href: "/qualification", icon: ListChecks },
   { label: "Campaigns", href: "/campaigns", icon: Megaphone },
   { label: "Integrations", href: "/integrations", icon: Plug },
@@ -34,10 +34,10 @@ export const settingsNavItem: NavItem = {
   icon: Settings,
 };
 
-export const bottomNavItems: NavItem[] = [
-  { label: "Home", href: "/overview", icon: Home },
-  { label: "Leads", href: "/inbox", icon: Users },
-  { label: "Inbox", href: "/inbox", icon: Inbox },
-  { label: "Analytics", href: "/overview", icon: BarChart3 },
-  { label: "More", href: "/integrations", icon: MoreHorizontal },
+export const moreMenuItems: NavItem[] = [
+  { label: "Qualification", href: "/qualification", icon: ListChecks },
+  { label: "Campaigns", href: "/campaigns", icon: Megaphone },
+  { label: "Integrations", href: "/integrations", icon: Plug },
+  { label: "Billing", href: "/billing", icon: CreditCard },
+  { label: "Settings", href: "/settings", icon: Settings },
 ];

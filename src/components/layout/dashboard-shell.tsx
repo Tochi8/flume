@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { Sidebar } from "./sidebar";
-import { MobileTopBar, MobileBottomNav } from "./mobile-nav";
+import { MobileTopBar, MobileBottomNav, MobileMenu } from "./mobile-nav";
 import type { Workspace } from "@/types";
 
 const currentWorkspace: Workspace = {
@@ -19,14 +20,16 @@ function isFocusView(pathname: string) {
 export function DashboardShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const focusView = isFocusView(pathname);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <div className="md:flex md:h-screen">
       <Sidebar workspace={currentWorkspace} />
       <main className={focusView ? "flex-1 md:overflow-hidden" : "flex-1 overflow-y-auto pb-20 md:pb-0"}>
-        {!focusView && <MobileTopBar />}
+        {!focusView && <MobileTopBar onMenu={() => setMenuOpen(true)} />}
         {children}
-        {!focusView && <MobileBottomNav />}
+        {!focusView && <MobileBottomNav onMore={() => setMenuOpen(true)} />}
+        <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
       </main>
     </div>
   );
