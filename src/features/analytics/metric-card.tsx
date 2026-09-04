@@ -15,14 +15,14 @@ export function MetricCard({
   className?: string;
 }) {
   return (
-    <Card className={cn("p-5 md:p-6 min-w-0", tone === "green" && "bg-green-surface border-green/20", className)}>
+    <Card className={cn("px-6 py-6 md:px-8 md:py-7 min-w-0", tone === "green" && "bg-green-surface border-green/20", className)}>
       <div className={cn("text-sm leading-snug", tone === "green" ? "text-green-dark" : "text-sub")}>
         {label}
       </div>
-      <div className="mt-3 flex items-end gap-2 min-w-0">
+      <div className="mt-4 flex items-end gap-2 min-w-0">
         <span
           className={cn(
-            "font-display font-bold text-2xl md:text-3xl leading-none break-words",
+            "font-display font-bold text-[28px] md:text-[32px] leading-none tracking-tight",
             tone === "green" ? "text-green-dark" : "text-ink"
           )}
         >

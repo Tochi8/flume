@@ -6,10 +6,8 @@ import {
   Megaphone,
   Plug,
   Settings,
-  Home,
-  Inbox,
-  BarChart3,
   CreditCard,
+  LogOut,
   type LucideIcon,
 } from "lucide-react";
 
@@ -40,4 +38,5 @@ export const moreMenuItems: NavItem[] = [
   { label: "Integrations", href: "/integrations", icon: Plug },
   { label: "Billing", href: "/billing", icon: CreditCard },
   { label: "Settings", href: "/settings", icon: Settings },
+  { label: "Log out", href: "/", icon: LogOut },
 ];
