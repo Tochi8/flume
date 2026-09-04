@@ -28,12 +28,12 @@ export default function MarketingPage() {
       </section>
 
       <section className="max-w-6xl mx-auto px-6 pb-20 md:pb-28">
-        <div className="rounded-feature overflow-hidden border border-border bg-muted relative aspect-[16/9]">
+        <div className="rounded-feature overflow-hidden border border-border bg-green-surface relative h-[340px] sm:h-[420px] md:h-[560px]">
           <Image
             src="/brand/hero-devices.jpg"
             alt="Flume dashboard, inbox, and conversation views"
             fill
-            className="object-cover"
+            className="object-contain md:object-cover"
             priority
             sizes="(max-width: 768px) 100vw, 1152px"
           />
