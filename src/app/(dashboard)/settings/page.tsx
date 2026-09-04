@@ -31,7 +31,12 @@ export default function SettingsPage() {
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="workspace-email">Notification email</Label>
-            <Input id="workspace-email" name="workspace-email" type="email" defaultValue="tolu@adireandco.com" />
+            <Input
+              id="workspace-email"
+              name="workspace-email"
+              type="email"
+              defaultValue="tolu@adireandco.com"
+            />
           </div>
           <div className="pt-2 flex items-center gap-3">
             <Button type="submit">Save changes</Button>
@@ -39,6 +44,7 @@ export default function SettingsPage() {
           </div>
         </Card>
       </form>
+
       <Card className="p-5 md:p-6 mt-4">
         <CardTitle className="mb-2">Delete account</CardTitle>
         <p className="text-sm text-sub mb-4">

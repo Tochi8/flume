@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Users, Inbox, BarChart3, Menu, X } from "lucide-react";
+import { Home, Users, Inbox, BarChart3, Menu, X, LogOut } from "lucide-react";
 import { moreMenuItems } from "./nav-config";
 import { cn } from "@/lib/utils";
 
@@ -73,6 +73,8 @@ export function MobileMenu({
   const pathname = usePathname();
   if (!open) return null;
 
+  const pageItems = moreMenuItems.filter((item) => item.label !== "Log out");
+
   return (
     <div className="md:hidden fixed inset-0 z-50">
       <button type="button" className="absolute inset-0 bg-ink/40" aria-label="Close menu" onClick={onClose} />
@@ -83,8 +85,8 @@ export function MobileMenu({
             <X className="h-5 w-5 text-ink" />
           </button>
         </div>
-        <nav className="p-3 space-y-1">
-          {moreMenuItems.map((item) => {
+        <nav className="p-3 space-y-1 flex-1">
+          {pageItems.map((item) => {
             const Icon = item.icon;
             const active = pathname === item.href;
             return (
@@ -103,6 +105,16 @@ export function MobileMenu({
             );
           })}
         </nav>
+        <div className="p-3 border-t border-border">
+          <Link
+            href="/"
+            onClick={onClose}
+            className="flex items-center gap-3 px-3 py-3 rounded-md text-sm text-ink hover:bg-muted"
+          >
+            <LogOut className="h-4 w-4" />
+            Log out
+          </Link>
+        </div>
       </div>
     </div>
   );
