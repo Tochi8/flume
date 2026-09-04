@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { Card, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,6 +8,8 @@ import { Button } from "@/components/ui/button";
 
 export default function SettingsPage() {
   const [saved, setSaved] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleted, setDeleted] = useState(false);
 
   function handleSave(e: React.FormEvent) {
     e.preventDefault();
@@ -39,11 +40,27 @@ export default function SettingsPage() {
         </Card>
       </form>
       <Card className="p-5 md:p-6 mt-4">
-        <CardTitle className="mb-2">Account</CardTitle>
-        <p className="text-sm text-sub mb-4">Log out of this workspace on this device.</p>
-        <Button variant="outline" asChild>
-          <Link href="/">Log out</Link>
-        </Button>
+        <CardTitle className="mb-2">Delete account</CardTitle>
+        <p className="text-sm text-sub mb-4">
+          This removes the workspace and its leads. It cannot be undone once the backend is live.
+        </p>
+        {!confirmDelete ? (
+          <Button type="button" variant="outline" onClick={() => setConfirmDelete(true)}>
+            Delete account
+          </Button>
+        ) : (
+          <div className="flex flex-wrap items-center gap-3">
+            <Button type="button" variant="outline" onClick={() => setDeleted(true)}>
+              Yes, delete account
+            </Button>
+            <Button type="button" variant="ghost" onClick={() => setConfirmDelete(false)}>
+              Cancel
+            </Button>
+          </div>
+        )}
+        {deleted && (
+          <p className="text-sm text-sub mt-3">Account delete is recorded here. Backend wiring comes next.</p>
+        )}
       </Card>
     </div>
   );

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, LogOut } from "lucide-react";
 import { Logo } from "@/components/shared/logo";
 import { sidebarNavItems, settingsNavItem } from "./nav-config";
 import { cn } from "@/lib/utils";
@@ -54,6 +54,13 @@ export function Sidebar({ workspace }: { workspace: Workspace }) {
         >
           <settingsNavItem.icon className="h-4 w-4" />
           Settings
+        </Link>
+        <Link
+          href="/"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm text-sub hover:bg-muted transition-colors"
+        >
+          <LogOut className="h-4 w-4" />
+          Log out
         </Link>
         <div className="mt-3 mx-1 p-3 rounded-md bg-muted">
           <div className="text-xs text-sub mb-1.5">
