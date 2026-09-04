@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Users, Inbox, BarChart3, MoreHorizontal, Menu, X } from "lucide-react";
+import { Home, Users, Inbox, BarChart3, Menu, X } from "lucide-react";
 import { moreMenuItems } from "./nav-config";
 import { cn } from "@/lib/utils";
 
@@ -35,7 +35,7 @@ export function MobileTopBar({
   );
 }
 
-export function MobileBottomNav({ onMore }: { onMore?: () => void }) {
+export function MobileBottomNav() {
   const pathname = usePathname();
   const items = [
     { label: "Home", href: "/overview", icon: Home, active: pathname === "/overview" },
@@ -43,8 +43,6 @@ export function MobileBottomNav({ onMore }: { onMore?: () => void }) {
     { label: "Inbox", href: "/inbox/lead_1", icon: Inbox, active: isConversation(pathname) },
     { label: "Analytics", href: "/campaigns", icon: BarChart3, active: pathname === "/campaigns" },
   ];
-
-  const moreActive = moreMenuItems.some((item) => pathname === item.href);
 
   return (
     <nav className="md:hidden fixed bottom-0 inset-x-0 bg-surface border-t border-border flex items-center justify-around h-16 px-2 z-30">
@@ -61,14 +59,6 @@ export function MobileBottomNav({ onMore }: { onMore?: () => void }) {
           </Link>
         );
       })}
-      <button
-        type="button"
-        onClick={onMore}
-        className={cn("flex flex-col items-center gap-1 min-w-[56px]", moreActive ? "text-green-dark" : "text-faint")}
-      >
-        <MoreHorizontal className="h-5 w-5" />
-        <span className={cn("text-[11px]", moreActive && "font-medium")}>More</span>
-      </button>
     </nav>
   );
 }

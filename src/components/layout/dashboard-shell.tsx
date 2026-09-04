@@ -28,7 +28,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
       <main className={focusView ? "flex-1 md:overflow-hidden" : "flex-1 overflow-y-auto pb-20 md:pb-0"}>
         {!focusView && <MobileTopBar onMenu={() => setMenuOpen(true)} />}
         {children}
-        {!focusView && <MobileBottomNav onMore={() => setMenuOpen(true)} />}
+        {!focusView && <MobileBottomNav />}
         <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
       </main>
     </div>
