@@ -13,6 +13,7 @@ create table if not exists public.tenants (
   extract_limit int not null default 50,
   timezone text not null default 'Africa/Lagos',
   bachs_customer_id text,
+  bachs_subscription_id text,
   created_at timestamptz not null default now()
 );
 
