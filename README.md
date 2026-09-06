@@ -32,4 +32,4 @@ Service role is server-only. Tenant scoping uses users.auth_user_id.
 
 ## Product locks
 
-WhatsApp lead desk. Bachs billing (NGN), not Paystack.
+WhatsApp lead desk. Paystack billing (NGN).

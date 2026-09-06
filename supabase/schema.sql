@@ -14,6 +14,8 @@ create table if not exists public.tenants (
   timezone text not null default 'Africa/Lagos',
   bachs_customer_id text,
   bachs_subscription_id text,
+  paystack_customer_code text,
+  paystack_subscription_code text,
   created_at timestamptz not null default now()
 );
 

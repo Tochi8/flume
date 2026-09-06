@@ -2,15 +2,28 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
-type Plan = "pro_month" | "pro_year";
+export type BillingPlan = "pro_month" | "pro_year";
 
-export function UpgradeButton() {
+type UpgradeButtonProps = {
+  plan: BillingPlan;
+  label: string;
+  variant?: "default" | "outline";
+  className?: string;
+};
+
+export function UpgradeButton({
+  plan,
+  label,
+  variant = "default",
+  className,
+}: UpgradeButtonProps) {
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<Plan | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  async function upgrade(plan: Plan) {
-    setLoading(plan);
+  async function upgrade() {
+    setLoading(true);
     setError(null);
     try {
       const res = await fetch("/api/billing/checkout", {
@@ -22,30 +35,29 @@ export function UpgradeButton() {
       if (!res.ok) {
         throw new Error(data.message || data.error || "Checkout unavailable");
       }
-      if (data.checkoutUrl) {
-        window.location.href = data.checkoutUrl;
+      const url = data.checkoutUrl || data.authorization_url;
+      if (url) {
+        window.location.href = url;
         return;
       }
       throw new Error("No checkout URL returned");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Checkout failed");
     } finally {
-      setLoading(null);
+      setLoading(false);
     }
   }
 
-  const busy = loading !== null;
-
   return (
     <div>
-      <div className="flex flex-col sm:flex-row gap-3">
-        <Button onClick={() => upgrade("pro_month")} disabled={busy}>
-          {loading === "pro_month" ? "Starting checkout…" : "Upgrade — ₦15,000/month"}
-        </Button>
-        <Button onClick={() => upgrade("pro_year")} disabled={busy} variant="outline">
-          {loading === "pro_year" ? "Starting checkout…" : "Upgrade — ₦150,000/year"}
-        </Button>
-      </div>
+      <Button
+        onClick={upgrade}
+        disabled={loading}
+        variant={variant}
+        className={cn("w-full", className)}
+      >
+        {loading ? "Starting checkout…" : label}
+      </Button>
       {error && <p className="text-sm text-danger mt-3">{error}</p>}
     </div>
   );
