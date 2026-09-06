@@ -59,7 +59,7 @@ export default async function BillingPage() {
           <h3 className="font-display font-semibold text-ink text-lg">Pro Monthly</h3>
           <div className="mt-3 flex items-baseline gap-1">
             <span className="font-display font-bold text-3xl md:text-4xl text-ink tracking-tight">
-              ₦15,000
+              $10
             </span>
             <span className="text-sub text-sm">/mo</span>
           </div>
@@ -67,7 +67,7 @@ export default async function BillingPage() {
             Flexible month-to-month billing for teams scaling lead volume.
           </p>
           <div className="mt-5">
-            <UpgradeButton plan="pro_month" label="Upgrade" />
+            <UpgradeButton plan="pro_month" label="Upgrade — $10/mo" />
           </div>
           <FeatureList />
         </Card>
@@ -79,20 +79,24 @@ export default async function BillingPage() {
           </div>
           <div className="mt-3 flex items-baseline gap-1 flex-wrap">
             <span className="font-display font-bold text-3xl md:text-4xl text-ink tracking-tight">
-              ₦150,000
+              $100
             </span>
             <span className="text-sub text-sm">/yr</span>
           </div>
-          <p className="mt-1.5 text-xs text-green-dark font-medium">Save ₦30,000 vs monthly</p>
+          <p className="mt-1.5 text-xs text-green-dark font-medium">Save $20 vs monthly</p>
           <p className="mt-3 text-sm text-sub">
             Pay once a year and keep Pro coverage with two months free.
           </p>
           <div className="mt-5">
-            <UpgradeButton plan="pro_year" label="Upgrade" />
+            <UpgradeButton plan="pro_year" label="Upgrade — $100/yr" />
           </div>
           <FeatureList />
         </Card>
       </div>
+
+      <p className="mt-4 text-sm text-sub">
+        Sandbox billing is USD for now — NGN recurring unlocks once Bachs enables it.
+      </p>
     </div>
   );
 }
