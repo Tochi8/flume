@@ -21,7 +21,7 @@ export async function POST(request) {
         {
           error: "billing_not_configured",
           message:
-            "Bachs keys or product IDs are missing. Set BACHS_API_KEY and BACHS_PRODUCT_PRO_MONTH in env.",
+            "Bachs keys or product IDs are missing. Set BACHS_API_KEY and BACHS_PRODUCT_PRO_MONTH / BACHS_PRODUCT_PRO_YEAR in env.",
         },
         { status: 503 }
       );
