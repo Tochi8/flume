@@ -33,6 +33,7 @@ export async function POST(request) {
       email: tenant.notificationEmail || auth.profile.email,
       name: tenant.workspace || tenant.name,
       plan,
+      tenantId: auth.tenantId,
     });
 
     return NextResponse.json({
