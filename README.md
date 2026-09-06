@@ -36,6 +36,7 @@ This version walks the full product flow with sample data so you can see the des
 
 ## Tech stack
 
+- Supabase Postgres (server routes via service role)
 - TypeScript
 - Next.js 16 (App Router)
 - React 19
@@ -54,6 +55,9 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
+
+API (phase 1): `GET /api/leads`, `GET|PATCH /api/leads/[id]`, `GET|PATCH /api/tenant`.
+Schema docs: `supabase/schema.sql` (already applied on project `rinybhztdjmqbzfzsiog`).
 
 - Marketing site: `/`
 - Desk: `/overview`, `/inbox`, `/qualification`, `/campaigns`, `/integrations`, `/billing`, `/settings`

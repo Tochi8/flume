@@ -6,19 +6,30 @@ import { Button } from "@/components/ui/button";
 import { LeadStatusBadge } from "@/features/leads/lead-badges";
 import { MessageBubble } from "@/features/conversations/message-bubble";
 import { SuggestedReply } from "@/features/conversations/suggested-reply";
-import { getLeadById, mockMessages } from "@/features/leads/data";
+import { getMockMessages } from "@/features/leads/data";
+import { toUiLead, toUiMessages } from "@/lib/server/map-lead";
+import { getLead, listConversations } from "../../../../../lib/store.js";
+
+export const dynamic = "force-dynamic";
 
 export default async function LeadDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const lead = getLeadById(id);
-  if (!lead) notFound();
-  const messages = mockMessages[lead.id] ?? [];
-  const suggestedReply = "Hi Adebayo, thanks for reaching out. We can help with the 20 chairs for your event next Saturday. Would you like me to send you our available options and pricing?";
+  const storeLead = await getLead(id);
+  if (!storeLead) notFound();
+  const lead = toUiLead(storeLead);
+  const dbMessages = await listConversations(storeLead.id);
+  const messages =
+    dbMessages.length > 0 ? toUiMessages(dbMessages, storeLead.id) : getMockMessages(storeLead.id);
+  const suggestedReply =
+    storeLead.draft ||
+    `Hi ${lead.name}, thanks for reaching out. How can we help?`;
   return (
     <div className="md:h-screen md:flex md:flex-col">
       <header className="h-14 flex items-center justify-between px-5 md:px-6 border-b border-border bg-surface shrink-0">
         <div className="flex items-center gap-3">
-          <Link href="/inbox" className="text-sub"><ChevronLeft className="h-[18px] w-[18px]" /></Link>
+          <Link href="/inbox" className="text-sub">
+            <ChevronLeft className="h-[18px] w-[18px]" />
+          </Link>
           <span className="font-display font-semibold text-ink text-sm md:text-base">{lead.name}</span>
         </div>
         <LeadStatusBadge status={lead.status} />
@@ -26,7 +37,9 @@ export default async function LeadDetailPage({ params }: { params: Promise<{ id:
       <div className="flex-1 md:flex md:overflow-hidden">
         <aside className="hidden md:block w-64 shrink-0 border-r border-border bg-surface overflow-y-auto p-6">
           <div className="flex flex-col items-center text-center mb-6">
-            <Avatar className="h-16 w-16 text-xl mb-3"><AvatarFallback>{lead.avatarInitial}</AvatarFallback></Avatar>
+            <Avatar className="h-16 w-16 text-xl mb-3">
+              <AvatarFallback>{lead.avatarInitial}</AvatarFallback>
+            </Avatar>
             <div className="font-display font-semibold text-ink">{lead.name}</div>
             <div className="text-xs text-faint mt-1">{lead.phone}</div>
           </div>
@@ -41,13 +54,21 @@ export default async function LeadDetailPage({ params }: { params: Promise<{ id:
             <Field label="Status" value={lead.status} capitalize />
           </div>
           <div className="mt-8 pt-6 border-t border-border space-y-2">
-            <Button className="w-full">Mark as Won</Button>
-            <Button variant="outline" className="w-full">Mark as Lost</Button>
+            <Button className="w-full" type="button">
+              Mark as Won
+            </Button>
+            <Button variant="outline" className="w-full" type="button">
+              Mark as Lost
+            </Button>
           </div>
         </aside>
         <section className="flex-1 flex flex-col border-r border-border overflow-y-auto">
           <div className="flex-1 px-5 md:px-8 py-6 space-y-4">
-            {messages.map((m) => <MessageBubble key={m.id} message={m} />)}
+            {messages.length === 0 ? (
+              <p className="text-sm text-faint">No messages yet. Suggested reply is ready below.</p>
+            ) : (
+              messages.map((m) => <MessageBubble key={m.id} message={m} />)
+            )}
           </div>
           <SuggestedReply initialText={suggestedReply} />
         </section>
@@ -59,7 +80,10 @@ export default async function LeadDetailPage({ params }: { params: Promise<{ id:
             <div className="text-xs font-medium text-green-dark mt-1 uppercase">{lead.intent}</div>
           </div>
           <div className="space-y-4 text-sm">
-            <Field label="Intent" value={lead.intent === "high" ? "Strong" : lead.intent === "medium" ? "Moderate" : "Weak"} />
+            <Field
+              label="Intent"
+              value={lead.intent === "high" ? "Strong" : lead.intent === "medium" ? "Moderate" : "Weak"}
+            />
             <Field label="Reason" value={lead.reason ?? "—"} />
             <Field label="Budget signal" value={lead.budgetSignal ?? "—"} />
             <Field label="Urgency" value={lead.urgency ?? "—"} />
@@ -75,6 +99,7 @@ export default async function LeadDetailPage({ params }: { params: Promise<{ id:
     </div>
   );
 }
+
 function Field({ label, value, capitalize }: { label: string; value: string; capitalize?: boolean }) {
   return (
     <div>
