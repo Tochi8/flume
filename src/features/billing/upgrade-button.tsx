@@ -3,18 +3,20 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
+type Plan = "pro_month" | "pro_year";
+
 export function UpgradeButton() {
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<Plan | null>(null);
 
-  async function upgrade() {
-    setLoading(true);
+  async function upgrade(plan: Plan) {
+    setLoading(plan);
     setError(null);
     try {
       const res = await fetch("/api/billing/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan: "pro_month" }),
+        body: JSON.stringify({ plan }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -28,15 +30,22 @@ export function UpgradeButton() {
     } catch (err) {
       setError(err instanceof Error ? err.message : "Checkout failed");
     } finally {
-      setLoading(false);
+      setLoading(null);
     }
   }
 
+  const busy = loading !== null;
+
   return (
     <div>
-      <Button onClick={upgrade} disabled={loading}>
-        {loading ? "Starting checkout…" : "Upgrade — ₦15,000/month"}
-      </Button>
+      <div className="flex flex-col sm:flex-row gap-3">
+        <Button onClick={() => upgrade("pro_month")} disabled={busy}>
+          {loading === "pro_month" ? "Starting checkout…" : "Upgrade — ₦15,000/month"}
+        </Button>
+        <Button onClick={() => upgrade("pro_year")} disabled={busy} variant="outline">
+          {loading === "pro_year" ? "Starting checkout…" : "Upgrade — ₦150,000/year"}
+        </Button>
+      </div>
       {error && <p className="text-sm text-danger mt-3">{error}</p>}
     </div>
   );
