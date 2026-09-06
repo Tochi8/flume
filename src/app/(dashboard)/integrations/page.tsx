@@ -1,13 +1,20 @@
 import { IntegrationCard } from "@/features/integrations/integration-card";
 import { WhatsAppIcon, FacebookIcon, InstagramIcon, TikTokIcon } from "@/features/integrations/channel-icons";
-import { mockIntegrations } from "@/lib/api/mock-data";
+import { requireSession } from "@/lib/auth/session";
+import { listConnections } from "../../../../lib/store.js";
+
+export const dynamic = "force-dynamic";
+
 const icons: Record<string, React.ReactNode> = {
   int_whatsapp: <WhatsAppIcon />,
   int_facebook: <FacebookIcon />,
   int_instagram: <InstagramIcon />,
   int_tiktok: <TikTokIcon />,
 };
-export default function IntegrationsPage() {
+
+export default async function IntegrationsPage() {
+  const { tenantId } = await requireSession();
+  const connections = await listConnections(tenantId);
   return (
     <div className="max-w-2xl mx-auto px-5 md:px-10 py-6 md:py-10">
       <div className="mb-8">
@@ -15,7 +22,7 @@ export default function IntegrationsPage() {
         <p className="text-sub mt-1">Flume reads leads from the channels you connect here.</p>
       </div>
       <div className="space-y-3">
-        {mockIntegrations.map((integration) => (
+        {connections.map((integration) => (
           <IntegrationCard key={integration.id} integration={integration} icon={icons[integration.id]} />
         ))}
       </div>

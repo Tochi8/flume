@@ -18,7 +18,7 @@ export default function MarketingPage() {
         </p>
         <div className="mt-8 flex items-center justify-center gap-4">
           <Button size="lg" asChild>
-            <Link href="/overview">Start for free</Link>
+            <Link href="/signup">Start for free</Link>
           </Button>
           <Button variant="link" size="lg" asChild>
             <Link href="#how-it-works">See how it works</Link>
@@ -117,7 +117,7 @@ export default function MarketingPage() {
               <div className="font-display font-bold text-4xl text-ink">₦0</div>
               <div className="text-sm text-sub mt-3 mb-8">50 leads / month</div>
               <Button variant="outline" className="w-full mt-auto" asChild>
-                <Link href="/overview">Start free</Link>
+                <Link href="/signup">Start free</Link>
               </Button>
             </div>
             <div className="border-2 border-green rounded-feature p-8 md:p-10 bg-bg flex flex-col">
@@ -126,7 +126,7 @@ export default function MarketingPage() {
               <div className="text-sm text-sub mt-2">per month</div>
               <div className="text-sm text-sub mt-3 mb-8">1,000 leads / month</div>
               <Button className="w-full mt-auto" asChild>
-                <Link href="/overview">Start Pro</Link>
+                <Link href="/signup">Start Pro</Link>
               </Button>
             </div>
             <div className="border border-border rounded-feature p-8 md:p-10 bg-bg flex flex-col">
@@ -135,7 +135,7 @@ export default function MarketingPage() {
               <div className="text-sm text-sub mt-2">per year</div>
               <div className="text-sm text-sub mt-3 mb-8">2,000 leads / month</div>
               <Button variant="outline" className="w-full mt-auto" asChild>
-                <Link href="/overview">Save with yearly</Link>
+                <Link href="/signup">Save with yearly</Link>
               </Button>
             </div>
           </div>
@@ -165,7 +165,7 @@ export default function MarketingPage() {
         <div className="max-w-3xl mx-auto px-6 py-20 text-center">
           <h2 className="font-display font-bold text-3xl text-ink">Your next customer already messaged you.</h2>
           <Button size="lg" className="mt-8" asChild>
-            <Link href="/overview">Start for free</Link>
+            <Link href="/signup">Start for free</Link>
           </Button>
         </div>
       </section>

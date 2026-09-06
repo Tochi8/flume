@@ -28,11 +28,11 @@ export function MarketingNav() {
           ))}
         </nav>
         <div className="flex items-center gap-3">
-          <Link href="/overview" className="hidden sm:inline text-sm text-sub hover:text-ink transition-colors">
+          <Link href="/login" className="hidden sm:inline text-sm text-sub hover:text-ink transition-colors">
             Log in
           </Link>
           <Button asChild size="sm" className="hidden sm:inline-flex">
-            <Link href="/overview">Start for free</Link>
+            <Link href="/signup">Start for free</Link>
           </Button>
           <button
             type="button"
@@ -56,11 +56,11 @@ export function MarketingNav() {
               {link.label}
             </Link>
           ))}
-          <Link href="/overview" className="block text-sm text-sub py-1" onClick={() => setOpen(false)}>
+          <Link href="/login" className="block text-sm text-sub py-1" onClick={() => setOpen(false)}>
             Log in
           </Link>
           <Button asChild className="w-full" onClick={() => setOpen(false)}>
-            <Link href="/overview">Start for free</Link>
+            <Link href="/signup">Start for free</Link>
           </Button>
         </div>
       )}

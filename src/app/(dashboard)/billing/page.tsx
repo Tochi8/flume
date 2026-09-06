@@ -1,11 +1,11 @@
-import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
-import { getTenant } from "../../../../lib/store.js";
+import { UpgradeButton } from "@/features/billing/upgrade-button";
+import { requireSession } from "@/lib/auth/session";
 
 export const dynamic = "force-dynamic";
 
 export default async function BillingPage() {
-  const tenant = await getTenant();
+  const { tenant } = await requireSession();
   const used = tenant.extractsUsed ?? 0;
   const limit = tenant.extractLimit ?? 50;
   const pct = limit > 0 ? Math.min(100, Math.round((used / limit) * 100)) : 0;
@@ -31,9 +31,9 @@ export default async function BillingPage() {
       <Card className="p-5 md:p-6">
         <CardTitle className="mb-4">Upgrade to Pro</CardTitle>
         <p className="text-sm text-sub mb-4">
-          Get 1,000 leads a month, priority support, and campaign-level reporting.
+          Get 1,000 leads a month, priority support, and campaign-level reporting. Billed in NGN via Bachs.
         </p>
-        <Button>Upgrade — ₦15,000/month</Button>
+        <UpgradeButton />
       </Card>
     </div>
   );

@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Users, Inbox, BarChart3, Menu, X, LogOut } from "lucide-react";
+import { Home, Users, Inbox, BarChart3, Menu, X } from "lucide-react";
 import { moreMenuItems } from "./nav-config";
+import { LogoutButton } from "./logout-button";
 import { cn } from "@/lib/utils";
 
 function isLeadList(pathname: string) {
@@ -11,7 +12,7 @@ function isLeadList(pathname: string) {
 }
 
 function isConversation(pathname: string) {
-  return /^\/inbox\/[^/]+$/.test(pathname);
+  return pathname === "/conversations" || /^\/inbox\/[^/]+$/.test(pathname);
 }
 
 export function MobileTopBar({
@@ -40,7 +41,7 @@ export function MobileBottomNav() {
   const items = [
     { label: "Home", href: "/overview", icon: Home, active: pathname === "/overview" },
     { label: "Leads", href: "/inbox", icon: Users, active: isLeadList(pathname) },
-    { label: "Inbox", href: "/inbox/lead_1", icon: Inbox, active: isConversation(pathname) },
+    { label: "Inbox", href: "/conversations", icon: Inbox, active: isConversation(pathname) },
     { label: "Analytics", href: "/campaigns", icon: BarChart3, active: pathname === "/campaigns" },
   ];
 
@@ -106,14 +107,7 @@ export function MobileMenu({
           })}
         </nav>
         <div className="p-3 border-t border-border">
-          <Link
-            href="/"
-            onClick={onClose}
-            className="flex items-center gap-3 px-3 py-3 rounded-md text-sm text-ink hover:bg-muted"
-          >
-            <LogOut className="h-4 w-4" />
-            Log out
-          </Link>
+          <LogoutButton onDone={onClose} className="px-3 py-3 text-ink" />
         </div>
       </div>
     </div>

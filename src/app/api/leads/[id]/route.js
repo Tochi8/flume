@@ -1,15 +1,15 @@
 import { NextResponse } from "next/server";
-import { getLead, updateLead, listConversations, DEMO_TENANT_ID } from "../../../../../lib/store.js";
+import { getLead, updateLead, listConversations, addOutboundMessage } from "../../../../../lib/store.js";
+import { requireApiSession } from "../../../../../lib/api-auth.js";
 
 export const runtime = "nodejs";
 
-export async function GET(request, { params }) {
+export async function GET(_request, { params }) {
   try {
+    const auth = await requireApiSession();
+    if (auth.error) return auth.error;
     const { id } = await params;
-    const { searchParams } = new URL(request.url);
-    const tenantId = searchParams.get("tenantId") || DEMO_TENANT_ID;
-    const mask = searchParams.get("mask") !== "0";
-    const lead = await getLead(id, tenantId, { mask });
+    const lead = await getLead(id, auth.tenantId, { mask: true });
     if (!lead) {
       return NextResponse.json({ error: "not_found" }, { status: 404 });
     }
@@ -26,10 +26,19 @@ export async function GET(request, { params }) {
 
 export async function PATCH(request, { params }) {
   try {
+    const auth = await requireApiSession();
+    if (auth.error) return auth.error;
     const { id } = await params;
     const body = await request.json().catch(() => ({}));
-    const tenantId = body.tenantId || DEMO_TENANT_ID;
-    const lead = await updateLead(id, body, tenantId);
+
+    if (body.sendMessage) {
+      const message = await addOutboundMessage(id, body.sendMessage, auth.tenantId);
+      if (!message) return NextResponse.json({ error: "not_found" }, { status: 404 });
+      const lead = await getLead(id, auth.tenantId);
+      return NextResponse.json({ lead, message });
+    }
+
+    const lead = await updateLead(id, body, auth.tenantId);
     if (!lead) {
       return NextResponse.json({ error: "not_found" }, { status: 404 });
     }
