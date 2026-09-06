@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Sparkles } from "lucide-react";
 import { MarketingNav } from "@/components/layout/marketing-nav";
-import { Logo } from "@/components/shared/logo";
 import { Button } from "@/components/ui/button";
+import { MarketingFooter } from "@/components/layout/marketing-footer";
 
 export default function MarketingPage() {
   return (
@@ -170,13 +170,7 @@ export default function MarketingPage() {
         </div>
       </section>
 
-      <footer className="max-w-6xl mx-auto px-6 py-14">
-        <Logo size={24} className="mb-3" />
-        <p className="text-sm text-faint max-w-xs">
-          A calm sales operating system built around WhatsApp, for SMEs across Nigeria and Africa.
-        </p>
-        <div className="mt-12 pt-6 border-t border-border text-xs text-faint">© 2026 Flume. Built for Nigerian & African SMEs.</div>
-      </footer>
+      <MarketingFooter />
     </>
   );
 }

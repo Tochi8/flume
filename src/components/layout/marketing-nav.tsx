@@ -7,10 +7,10 @@ import { Logo } from "@/components/shared/logo";
 import { Button } from "@/components/ui/button";
 
 const links = [
-  { href: "#how-it-works", label: "How it works" },
-  { href: "#intelligence", label: "Lead intelligence" },
-  { href: "#pricing", label: "Pricing" },
-  { href: "#faq", label: "FAQ" },
+  { href: "/#how-it-works", label: "How it works" },
+  { href: "/#intelligence", label: "Lead intelligence" },
+  { href: "/#pricing", label: "Pricing" },
+  { href: "/#faq", label: "FAQ" },
 ];
 
 export function MarketingNav() {
