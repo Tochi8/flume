@@ -33,3 +33,13 @@ Service role is server-only. Tenant scoping uses users.auth_user_id.
 ## Product locks
 
 WhatsApp lead desk. Paystack billing (NGN).
+
+## TikTok Instant Form (MVP)
+
+Webhook: `POST https://flume-ten.vercel.app/api/webhooks/tiktok`
+
+Env: `TIKTOK_CLIENT_KEY`, `TIKTOK_CLIENT_SECRET`, `TIKTOK_ACCESS_TOKEN`, optional `TIKTOK_ADVERTISER_ID`.
+
+Flow: subscription notify (`lead_id`, `advertiser_id`, `page_id`) → verify signature → `GET /open_api/v1.3/lead/get/` → idempotent `ingestLead` (`raw.external_lead_id`).
+
+Multi-tenant OAuth / storing tokens on `connections.tokens_enc` is a follow-up; Connect TikTok currently toggles connection status only.
