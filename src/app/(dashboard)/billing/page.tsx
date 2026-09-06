@@ -32,8 +32,9 @@ export default async function BillingPage() {
   const used = tenant.extractsUsed ?? 0;
   const limit = tenant.extractLimit ?? 50;
   const pct = limit > 0 ? Math.min(100, Math.round((used / limit) * 100)) : 0;
+  const currentPlan = tenant.plan ?? "free";
   const planLabel =
-    tenant.plan === "pro_month" || tenant.plan === "pro_year" || tenant.plan === "pro"
+    currentPlan === "pro_month" || currentPlan === "pro_year" || currentPlan === "pro"
       ? "Pro"
       : "Free";
 
@@ -67,7 +68,7 @@ export default async function BillingPage() {
             Flexible month-to-month billing for teams scaling lead volume.
           </p>
           <div className="mt-5">
-            <UpgradeButton plan="pro_month" label="Upgrade — ₦15,000/mo" />
+            <UpgradeButton plan="pro_month" currentPlan={currentPlan} />
           </div>
           <FeatureList />
         </Card>
@@ -88,7 +89,7 @@ export default async function BillingPage() {
             Pay once a year and keep Pro coverage with two months free.
           </p>
           <div className="mt-5">
-            <UpgradeButton plan="pro_year" label="Upgrade — ₦150,000/yr" />
+            <UpgradeButton plan="pro_year" currentPlan={currentPlan} />
           </div>
           <FeatureList />
         </Card>
