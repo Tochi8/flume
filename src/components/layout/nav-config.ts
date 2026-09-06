@@ -20,7 +20,7 @@ export interface NavItem {
 export const sidebarNavItems: NavItem[] = [
   { label: "Overview", href: "/overview", icon: LayoutDashboard },
   { label: "Leads", href: "/inbox", icon: Users },
-  { label: "Conversations", href: "/inbox/lead_1", icon: MessageSquare },
+  { label: "Conversations", href: "/conversations", icon: MessageSquare },
   { label: "Qualification", href: "/qualification", icon: ListChecks },
   { label: "Campaigns", href: "/campaigns", icon: Megaphone },
   { label: "Integrations", href: "/integrations", icon: Plug },
@@ -38,5 +38,5 @@ export const moreMenuItems: NavItem[] = [
   { label: "Integrations", href: "/integrations", icon: Plug },
   { label: "Billing", href: "/billing", icon: CreditCard },
   { label: "Settings", href: "/settings", icon: Settings },
-  { label: "Log out", href: "/", icon: LogOut },
+  { label: "Log out", href: "/auth/logout", icon: LogOut },
 ];

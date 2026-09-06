@@ -1,11 +1,13 @@
 import { LeadFilters } from "@/features/leads/lead-filters";
+import { requireSession } from "@/lib/auth/session";
 import { toUiLead } from "@/lib/server/map-lead";
 import { listLeads } from "../../../../lib/store.js";
 
 export const dynamic = "force-dynamic";
 
 export default async function InboxPage() {
-  const storeLeads = await listLeads();
+  const { tenantId } = await requireSession();
+  const storeLeads = await listLeads(tenantId);
   const leads = storeLeads.filter(Boolean).map((l) => toUiLead(l!));
   const needReply = leads.filter((l) => l.status === "new" || l.status === "contacted").length;
   return (

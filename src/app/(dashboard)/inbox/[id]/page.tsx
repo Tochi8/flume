@@ -2,32 +2,31 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import { LeadStatusBadge } from "@/features/leads/lead-badges";
 import { MessageBubble } from "@/features/conversations/message-bubble";
-import { SuggestedReply } from "@/features/conversations/suggested-reply";
-import { getMockMessages } from "@/features/leads/data";
+import { LeadStatusActions, LeadSuggestedReply } from "@/features/inbox/lead-actions";
+import { requireSession } from "@/lib/auth/session";
 import { toUiLead, toUiMessages } from "@/lib/server/map-lead";
 import { getLead, listConversations } from "../../../../../lib/store.js";
 
 export const dynamic = "force-dynamic";
 
 export default async function LeadDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { tenantId } = await requireSession();
   const { id } = await params;
-  const storeLead = await getLead(id);
+  const storeLead = await getLead(id, tenantId);
   if (!storeLead) notFound();
   const lead = toUiLead(storeLead);
   const dbMessages = await listConversations(storeLead.id);
-  const messages =
-    dbMessages.length > 0 ? toUiMessages(dbMessages, storeLead.id) : getMockMessages(storeLead.id);
+  const messages = toUiMessages(dbMessages, storeLead.id);
   const suggestedReply =
-    storeLead.draft ||
-    `Hi ${lead.name}, thanks for reaching out. How can we help?`;
+    storeLead.draft || `Hi ${lead.name}, thanks for reaching out. How can we help?`;
+
   return (
     <div className="md:h-screen md:flex md:flex-col">
       <header className="h-14 flex items-center justify-between px-5 md:px-6 border-b border-border bg-surface shrink-0">
         <div className="flex items-center gap-3">
-          <Link href="/inbox" className="text-sub">
+          <Link href="/conversations" className="text-sub">
             <ChevronLeft className="h-[18px] w-[18px]" />
           </Link>
           <span className="font-display font-semibold text-ink text-sm md:text-base">{lead.name}</span>
@@ -53,14 +52,7 @@ export default async function LeadDetailPage({ params }: { params: Promise<{ id:
             <Field label="First contact" value={lead.firstContactAt} />
             <Field label="Status" value={lead.status} capitalize />
           </div>
-          <div className="mt-8 pt-6 border-t border-border space-y-2">
-            <Button className="w-full" type="button">
-              Mark as Won
-            </Button>
-            <Button variant="outline" className="w-full" type="button">
-              Mark as Lost
-            </Button>
-          </div>
+          <LeadStatusActions leadId={lead.id} />
         </aside>
         <section className="flex-1 flex flex-col border-r border-border overflow-y-auto">
           <div className="flex-1 px-5 md:px-8 py-6 space-y-4">
@@ -70,7 +62,7 @@ export default async function LeadDetailPage({ params }: { params: Promise<{ id:
               messages.map((m) => <MessageBubble key={m.id} message={m} />)
             )}
           </div>
-          <SuggestedReply initialText={suggestedReply} />
+          <LeadSuggestedReply leadId={lead.id} initialText={suggestedReply} />
         </section>
         <aside className="md:w-72 shrink-0 bg-surface md:overflow-y-auto p-5 md:p-6">
           <h2 className="font-display font-semibold text-ink mb-4">Flume Intelligence</h2>

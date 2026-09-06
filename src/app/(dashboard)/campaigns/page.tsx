@@ -1,10 +1,15 @@
 import { MetricCard } from "@/features/analytics/metric-card";
 import { CampaignsTable } from "@/features/campaigns/campaigns-table";
-import { mockCampaigns } from "@/lib/api/mock-data";
+import { requireSession } from "@/lib/auth/session";
+import { listCampaigns } from "../../../../lib/store.js";
 
-export default function CampaignsPage() {
-  const totalLeads = mockCampaigns.reduce((s, c) => s + c.leads, 0);
-  const totalSpend = mockCampaigns.reduce((s, c) => s + c.spendNaira, 0);
+export const dynamic = "force-dynamic";
+
+export default async function CampaignsPage() {
+  const { tenantId } = await requireSession();
+  const campaigns = await listCampaigns(tenantId);
+  const totalLeads = campaigns.reduce((s, c) => s + (c.leads || 0), 0);
+  const totalSpend = campaigns.reduce((s, c) => s + (c.spendNaira || 0), 0);
   const avgCpl = totalLeads > 0 ? Math.round(totalSpend / totalLeads) : 0;
 
   return (
@@ -18,7 +23,7 @@ export default function CampaignsPage() {
         <MetricCard label="Ad spend" value={`₦${totalSpend.toLocaleString("en-NG")}`} />
         <MetricCard label="Avg. cost / lead" value={`₦${avgCpl.toLocaleString("en-NG")}`} />
       </div>
-      <CampaignsTable campaigns={mockCampaigns} />
+      <CampaignsTable campaigns={campaigns} />
     </div>
   );
 }

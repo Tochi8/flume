@@ -1,14 +1,15 @@
 import { NextResponse } from "next/server";
-import { getTenant, setPlan, DEMO_TENANT_ID } from "../../../../lib/store.js";
+import { getTenant, setPlan, updateTenantSettings } from "../../../../lib/store.js";
+import { requireApiSession } from "../../../../lib/api-auth.js";
 
 export const runtime = "nodejs";
 
-export async function GET(request) {
+export async function GET() {
   try {
-    const { searchParams } = new URL(request.url);
-    const tenantId = searchParams.get("tenantId") || DEMO_TENANT_ID;
-    const tenant = await getTenant(tenantId);
-    return NextResponse.json({ tenant });
+    const auth = await requireApiSession();
+    if (auth.error) return auth.error;
+    const tenant = await getTenant(auth.tenantId);
+    return NextResponse.json({ tenant, user: auth.profile });
   } catch (err) {
     console.error("[api/tenant]", err);
     return NextResponse.json(
@@ -20,12 +21,20 @@ export async function GET(request) {
 
 export async function PATCH(request) {
   try {
+    const auth = await requireApiSession();
+    if (auth.error) return auth.error;
     const body = await request.json().catch(() => ({}));
-    const tenantId = body.tenantId || DEMO_TENANT_ID;
-    if (!body.plan) {
-      return NextResponse.json({ error: "plan_required" }, { status: 400 });
+
+    if (body.plan) {
+      const tenant = await setPlan(body.plan, auth.tenantId);
+      return NextResponse.json({ tenant });
     }
-    const tenant = await setPlan(body.plan, tenantId);
+
+    const tenant = await updateTenantSettings(auth.tenantId, {
+      workspace: body.workspace,
+      name: body.name,
+      notificationEmail: body.notificationEmail ?? body.email,
+    });
     return NextResponse.json({ tenant });
   } catch (err) {
     console.error("[api/tenant PATCH]", err);

@@ -121,3 +121,6 @@ end $$;
 
 -- NOTE: RLS is currently disabled on these tables (phase 1 uses service-role server routes).
 -- Enable RLS + policies before exposing the anon key to browsers for direct table access.
+
+
+-- See also: supabase/migrations/20260906_auth_desk.sql

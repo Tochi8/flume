@@ -4,23 +4,26 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { MetricCard } from "@/features/analytics/metric-card";
 import { LeadActivityChart } from "@/features/analytics/lead-activity-chart";
 import { LeadStatusBadge } from "@/features/leads/lead-badges";
+import { requireSession } from "@/lib/auth/session";
 import { toUiLead } from "@/lib/server/map-lead";
-import { getTenant, listLeads } from "../../../../lib/store.js";
+import { listLeads } from "../../../../lib/store.js";
 
 export const dynamic = "force-dynamic";
 
 export default async function OverviewPage() {
-  const [tenant, storeLeads] = await Promise.all([getTenant(), listLeads()]);
+  const { tenant, tenantId } = await requireSession();
+  const storeLeads = await listLeads(tenantId);
   const leads = storeLeads.filter(Boolean).map((l) => toUiLead(l!));
   const recent = leads.slice(0, 3);
   const won = leads.filter((l) => l.status === "won").length;
   const replied = leads.filter((l) => l.status !== "new").length;
   const replyRate = leads.length ? Math.round((replied / leads.length) * 100) : 0;
+  const greetingName = tenant.name || "there";
   return (
     <div className="max-w-5xl mx-auto px-5 md:px-10 py-6 md:py-10">
       <div className="mb-6 md:mb-8">
         <h1 className="font-display font-bold text-2xl md:text-[28px] text-ink">
-          Good morning, {tenant.name}
+          Good morning, {greetingName}
         </h1>
         <p className="text-sub mt-1">Here&apos;s what&apos;s happening with your leads.</p>
       </div>
