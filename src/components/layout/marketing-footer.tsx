@@ -9,6 +9,9 @@ export function MarketingFooter() {
         A calm sales operating system built around WhatsApp, for SMEs across Nigeria and Africa.
       </p>
       <nav className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-sub">
+        <Link href="/waitlist" className="hover:text-ink transition-colors">
+          Waitlist
+        </Link>
         <Link href="/privacy" className="hover:text-ink transition-colors">
           Privacy
         </Link>

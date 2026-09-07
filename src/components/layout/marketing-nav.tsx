@@ -32,7 +32,7 @@ export function MarketingNav() {
             Log in
           </Link>
           <Button asChild size="sm" className="hidden sm:inline-flex">
-            <Link href="/signup">Start for free</Link>
+            <Link href="/waitlist">Join waitlist</Link>
           </Button>
           <button
             type="button"
@@ -60,7 +60,7 @@ export function MarketingNav() {
             Log in
           </Link>
           <Button asChild className="w-full" onClick={() => setOpen(false)}>
-            <Link href="/signup">Start for free</Link>
+            <Link href="/waitlist">Join waitlist</Link>
           </Button>
         </div>
       )}
